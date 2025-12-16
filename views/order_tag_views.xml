@@ -1,0 +1,23 @@
+<odoo>
+    <record id="view_pos_order_tag_tree" model="ir.ui.view">
+        <field name="name">pos.order.tag.tree</field>
+        <field name="model">pos.order.tag</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pos_order_tag" model="ir.actions.act_window">
+        <field name="name">Order Tags</field>
+        <field name="res_model">pos.order.tag</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem id="menu_pos_order_tag"
+              parent="point_of_sale.menu_point_config_product"
+              action="action_pos_order_tag"
+              sequence="20"/>
+</odoo>

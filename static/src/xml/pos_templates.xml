@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="pos_order_tag_v17.TagButton" owl="1">
+        <div class="control-button" t-on-click="onClick">
+            <i class="fa fa-tags me-1" role="img"/>
+            <span>Order Tags</span>
+        </div>
+    </t>
+
+    <t t-name="pos_order_tag_v17.TagPopup" owl="1">
+        <div class="modal-dialog">
+            <div class="popup popup-selection">
+                <header class="title">
+                    <t t-esc="props.title" />
+                </header>
+                <main class="body">
+                    <div class="tag-list">
+                        <t t-foreach="props.tags" t-as="tag" t-key="tag.id">
+                            <div class="tag-item" 
+                                 t-att-class="{ 'selected': state.selectedIds.has(tag.id) }"
+                                 t-on-click="() => this.toggleTag(tag.id)">
+                                <span t-esc="tag.name"/>
+                            </div>
+                        </t>
+                    </div>
+                </main>
+                <footer class="footer">
+                    <div class="button confirm" t-on-click="confirm">Confirm</div>
+                    <div class="button cancel" t-on-click="cancel">Cancel</div>
+                </footer>
+            </div>
+        </div>
+    </t>
+
+</templates>
