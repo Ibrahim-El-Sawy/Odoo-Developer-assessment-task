@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <record id="view_pos_order_tag_tree" model="ir.ui.view">
         <field name="name">pos.order.tag.tree</field>
@@ -16,8 +17,19 @@
         <field name="view_mode">tree</field>
     </record>
 
+    <record id="listview_tag" model="ir.actions.client">
+        <field name="name">List View</field>
+        <field name="tag">pos_order_tag_v17.action_listview</field>
+    </record>
+
+
     <menuitem id="menu_pos_order_tag"
               parent="point_of_sale.menu_point_config_product"
               action="action_pos_order_tag"
               sequence="20"/>
+
+    <menuitem id="menu_pos_order_tag_listview"
+              parent="point_of_sale.menu_point_config_product"
+              action="listview_tag"
+              sequence="30"/>
 </odoo>

@@ -1,19 +1,105 @@
-.tag-list {
+/* =================================================
+   Odoo POS v17 - Tag Button Styles (XML Compatible)
+   ================================================= */
+
+/* 1. الحاوية الرئيسية للزر (The Main Button Container) */
+.custom-tag-btn {
+    background-color: #ffffff;       /* خلفية بيضاء نظيفة */
+    border: 1px solid #e0e2e6;       /* حدود ناعمة جداً */
+    border-radius: 0px;             /* زوايا دائرية (ستايل v17) */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04); /* ظل خفيف */
+    transition: all 0.2s ease-in-out;
+    min-height: 68px;                /* ارتفاع مناسب للمس */
+    overflow: hidden; 
+    cursor: pointer;               /* لضمان عدم خروج المحتوى */
+}
+
+/* تأثير عند مرور الماوس (Hover) */
+.custom-tag-btn:hover {
+    border-color: #b0b5be;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);     /* حركة بسيطة للأعلى */
+}
+
+/* 2. صندوق الأيقونة (Icon Box) */
+.tag-icon-box {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;                 /* منع الانكماش */
+    background-color: #f3f6f9;       /* خلفية رمادية فاتحة للأيقونة */
+    border-radius: 50%;              /* شكل دائري */
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    align-items: center;
     justify-content: center;
-    padding: 10px;
 }
-.tag-item {
-    border: 1px solid #ccc;
-    padding: 10px 20px;
-    border-radius: 5px;
+
+/* تنسيق الأيقونة داخل الدائرة */
+.tag-icon-box i {
+    font-size: 1.2rem;
+    /* ملاحظة: اللون يأتي من كلاس text-primary في الـ XML */
+    /* ولكن يمكن تعزيزه هنا إذا لزم الأمر */
+}
+
+/* 3. عنوان التسمية (Label) */
+.tag-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #8f959e;                  /* لون رمادي هادئ للنص */
+}
+
+/* 4. قائمة الاختيار (Select Dropdown) */
+.tag-select-styled {
+    /* إزالة الشكل الافتراضي للمتصفح */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    /* الأبعاد والمسافات */
+    width: 100%;
+    padding: 4px 25px 4px 8px;       /* مسافة يمنى للسهم */
+    margin-top: 2px;
+    background-color: transparent;   /* شفاف ليتماهى مع الزر */
+    border: 1px solid transparent;   /* حدود شفافة */
+    border-radius: 6px;
+    
+    /* الخطوط */
+    font-weight: 600;
+    color: #212529;
+    font-size: 1rem;
     cursor: pointer;
-    background: white;
+    
+    /* سهم القائمة المنسدلة (SVG مخصص) */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 5px center;
+    background-size: 12px;
+    
+    transition: all 0.2s ease;
 }
-.tag-item.selected {
-    background-color: #714B67; 
-    color: white;
-    border-color: #714B67;
+
+/* تحسين شكل القائمة عند التركيز (Focus/Click) */
+.tag-select-styled:hover {
+    background-color: #f1f3f5;       /* خلفية خفيفة عند الوقوف عليها */
+}
+
+.tag-select-styled:focus {
+    outline: none;
+    background-color: #fff;
+    border-color: #714B67;           /* لون أودو الأساسي (أو لون الثيم الخاص بك) */
+    box-shadow: 0 0 0 3px rgba(113, 75, 103, 0.1); /* توهج خفيف */
+}
+
+/* 5. تحسينات خاصة بشاشات اللمس (POS Touch) */
+@media screen and (max-width: 768px) {
+    .custom-tag-btn {
+        padding: 0.4rem !important; /* تقليل الحواف قليلاً في الشاشات الصغيرة */
+    }
+    .tag-label {
+        font-size: 0.65rem;
+    }
+    .tag-select-styled {
+        font-size: 0.9rem;
+    }
 }

@@ -1,36 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
-
-    <t t-name="pos_order_tag_v17.TagButton" owl="1">
-        <div class="control-button" t-on-click="onClick">
-            <i class="fa fa-tags me-1" role="img"/>
-            <span>Order Tags</span>
-        </div>
-    </t>
-
-    <t t-name="pos_order_tag_v17.TagPopup" owl="1">
-        <div class="modal-dialog">
-            <div class="popup popup-selection">
-                <header class="title">
-                    <t t-esc="props.title" />
-                </header>
-                <main class="body">
-                    <div class="tag-list">
-                        <t t-foreach="props.tags" t-as="tag" t-key="tag.id">
-                            <div class="tag-item" 
-                                 t-att-class="{ 'selected': state.selectedIds.has(tag.id) }"
-                                 t-on-click="() => this.toggleTag(tag.id)">
-                                <span t-esc="tag.name"/>
-                            </div>
-                        </t>
-                    </div>
-                </main>
-                <footer class="footer">
-                    <div class="button confirm" t-on-click="confirm">Confirm</div>
-                    <div class="button cancel" t-on-click="cancel">Cancel</div>
-                </footer>
+    <t t-name="pos_order_tag_v17.TagButton">
+        <div class="control-button custom-tag-btn d-flex align-items-center p-2">
+            <div class="tag-icon-box me-2">
+                <i class="fa fa-tags text-primary" role="img"/>
+            </div>
+            <div class="tag-content d-flex flex-column flex-grow-1">
+                <span class="tag-label text-muted mb-1">ORDER TAG</span>
+                <select name="tags" id="tags_select" class="tag-select-styled" t-on-change="onTagChange" t-on-click.stop="">
+                    <option value="">None</option>
+                    <t t-foreach="state.tags" t-as="tag" t-key="tag.id">
+                        <option t-att-value="tag.id">
+                            <t t-esc="tag.name"/>
+                        </option>
+                    </t>
+                </select>
             </div>
         </div>
     </t>
-
 </templates>
