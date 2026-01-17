@@ -14,7 +14,7 @@ patch(Order.prototype, {
     export_as_JSON() {
         const json = super.export_as_JSON(...arguments);
         json.selected_tag_id = this.selected_tag_id;
-        console.log("inside json",json)
+        console.log("inside json", json);
         return json;
     },
 });
@@ -35,12 +35,11 @@ export class TagButton extends Component {
 
     onTagChange(ev) {
         const tagId = parseInt(ev.target.value);
-        console.log("get order method 1:" , this.pos.get_order())
+        console.log("get order method 1:", this.pos.get_order());
         this.pos.get_order().selected_tag_id = tagId;
-        this.pos.get_order().ddddd = tagId;
+        this.pos.get_order().ddddd = tagId; // Note: ddddd seems like a test variable
 
-        console.log("get order method 2:" , this.pos.get_order())
-
+        console.log("get order method 2:", this.pos.get_order());
         console.log("Tag Selected and Saved to Order:", tagId);
     }
 }
@@ -49,19 +48,21 @@ patch(PaymentScreen.prototype, {
     async validateOrder(isForceValidate) {
         const order = this.pos.get_order();
 
-        // التأكد إن المستخدم اختار Tag
+        // Check if the user has selected a Tag
         if (order.selected_tag_id) {
-            console.log("التاق موجود، سيتم إرساله للسيرفر ضمن بيانات الأوردر:", order.selected_tag_id);
+            console.log("Tag found, sending to server within order data:", order.selected_tag_id);
             
             return super.validateOrder(...arguments);
         } else {
-            this.env.services.notification.add("الرجاء اختيار وسم (Tag) قبل تأكيد الطلب", {
+            // Notification if Tag is missing
+            this.env.services.notification.add("Please select an Order Tag before validating the order", {
                 type: "danger",
             });
             return;
         }
     }
 });
+
 ProductScreen.addControlButton({
     component: TagButton,
     position: ["before", "OrderlineCustomerNoteButton"],
