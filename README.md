@@ -1,49 +1,68 @@
-# Odoo-Developer-assessment-task
+POS Order Tag Management (Odoo v17)
+Overview
 
+This module extends the Odoo v17 Point of Sale to allow cashiers to assign specific tags to orders. These tags help in categorizing orders (e.g., "VIP", "Delivery", "Urgent") and are synced directly to the backend for reporting and analysis.
+Features
 
-------------- Overview --------------
+    Backend Tag Management: Create and color-code tags from Point of Sale -> Configuration -> Order Tags.
 
-This module extends Odoo Point of Sale (POS) by adding Order Tags functionality.
-It allows cashiers to assign one or more tags to each POS order, which are then stored in the backend for tracking and reporting purposes.
+    POS UI Integration: A new button in the Product Screen to select a tag for the current order.
 
+    Mandatory Validation: Prevents the cashier from validating/finishing the payment if no tag is selected (Guarantees data integrity).
 
----------- Features -----------
+    Backend Sync: Selected tags are stored in the pos.order model using a Many2many relationship.
 
-Create and manage Order Tags from backend
-(Point of Sale → Configurations → Order Tags)
+    Real-time Logic: Built using OWL (Odoo Web Library) and JS Patches.
 
-Add Order Tags button in POS Product Screen
+Technical Implementation Details
+1. Backend (Python)
 
-Custom popup to select multiple tags per order
+    Model pos.order.tag: A simple model to store tag names and colors.
 
-Store selected tags on POS Order in backend
+    Model pos.order Inherit:
 
-JSON REST API to create Order Tags
+        Added tag_ids field.
 
-Built directly for Odoo v17
+        Overrode _order_fields to map the selected_tag_id coming from the POS UI (JSON) to the backend recordset.
 
----------- Technical Implementation -----------
+2. Frontend (Javascript/OWL)
 
-New model: pos.order.tag (name, color)
+    Patch Order.prototype: Extended the order model to include selected_tag_id and ensured it persists in the export_as_JSON method.
 
-POS Order extended with Many2many relation to tags
+    Component TagButton:
 
-POS session extended to load tags into POS UI
+        A custom component injected into the ProductScreen.
 
-POS frontend extended using OWL & JS patches
+        Uses onWillStart to fetch available tags via ORM service.
 
-REST endpoint:
+        Updates the current order state when a tag is selected.
 
-POST /api/pos/order-tags
+    Patch PaymentScreen.prototype:
 
+        Intercepts the validateOrder method.
 
+        Added logic to check if order.selected_tag_id exists. If not, it triggers a system notification and blocks the validation.
 
- ----------  notes --------------
- Development started directly on Odoo v17
-(Odoo v16 version was not implemented)
+Installation
 
-The Order Tags button and popup are fully implemented in POS UI
+    Copy the module folder pos_order_tag_v17 to your Odoo addons directory.
 
-Mandatory tag validation before payment was partially implemented and not fully finalized due to time constraints
+    Restart your Odoo server.
 
-Core logic and architecture are in place and can be completed
+    Enable Developer Mode.
+
+    Go to Apps -> Click Update Apps List.
+
+    Search for "POS Order Tag" and click Activate.
+
+How to Use
+
+    Define Tags: Go to Point of Sale > Configuration > Order Tags and create tags like "Dine-in", "Takeaway".
+
+    Open POS: Start a new session.
+
+    Select Tag: Before proceeding to payment, click the Tag Button (located near the customer note button) and select a tag.
+
+    Validation: If you try to pay without selecting a tag, a red danger notification will appear: "Please select an Order Tag before validating the order".
+
+    Backend Check: Once the order is closed, go to Point of Sale > Orders to see the assigned tags in the order details.
